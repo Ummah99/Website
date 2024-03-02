@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produkt Hochladen</title>
+    <style>
+        /* Hintergrundfarbe */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #7e8283;
+            display: flex;
+            justify-content: center; /* Formular in der Mitte des Bildschirms zentrieren */
+            align-items: center; /* Formular in der Mitte des Bildschirms zentrieren */
+            height: 100vh; /* Volle Höhe des Viewports */
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 100px;
+            border-radius: 10px;
+            width: 600px;
+            position: relative;
+            margin: auto; /* Zentriere das Formular horizontal */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .image-box {
+            width: calc(25% - 20px); /* Vier Bilder nebeneinander mit 20px Abstand */
+            height: 150px; /* Höhe der Bildkästen */
+            overflow: hidden; /* Verstecke den Inhalt, der den Bildkasten übersteigt */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 20px; /* Abstand zwischen den Bildkästen */
+        }
+
+        .image-box img {
+            width: 100%; /* Bilder auf 100% Breite des Bildkastens */
+            height: auto; /* Automatische Höhe */
+        }
+
+        /* Hier ist der produkt Preis Anzeige */
+        .price-input {
+    max-width: 300px;
+    margin-left: 20px; /* Links am Rand */
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+    border: none;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.currency {
+    font-size: 14px;
+    border-radius: 50%;
+    padding: 6px 10px;
+    background-color: #4400ff;
+    color: rgb(255, 255, 255);
+    margin-left: 5px;
+}
+
+.currency-selector {
+    max-width: 300px;
+    margin-left: 20px; /* Links am Rand */
+}
+
+label {
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+select {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    outline: none;
+}
+
+/* Hier ist Der Upload Button */
+.upload-container {
+    display: inline-block;
+}
+
+form {
+    display: inline-block;
+}
+
+#image {
+    display: none;
+}
+
+.upload-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.5s;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.upload-button:hover {
+    padding-right: 25px;
+    background-color: #4CAF50;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.upload-button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 255, 0.2);
+    z-index: -1;
+    transition: transform 0.5s;
+    transform: scale(0);
+    transform-origin: center;
+}
+
+.upload-button:hover:before {
+    transform: scale(3);
+}
+
+.submit-button {
+    padding: 10px 20px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: 0.5s;
+}
+
+.submit-button:hover {
+    background-color: #005f6b;
+}
+
+/* Hier ist der Home Button */
+.Tabe {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+.Tabe a {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    border-radius: 100px;
+    margin: 5px;
+}
+
+.Tabe a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.Tabe a.split {
+    background-color: rgb(8, 110, 17);
+    color: white;
+}
+
+/* AB hier ist der Hashtag feld ______________________________________ */
+body {
+    font-family: Arial, sans-serif;
+    margin: 50px;
+}
+
+
+.product-tags {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.tag-container {
+    max-height: 150px; /* Maximale Höhe des Containers */
+    overflow-y: auto; /* Scrollbalken anzeigen, wenn der Container überläuft */
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    margin: 5px; /* Abstand von allen Seiten */
+    cursor: pointer;
+}
+
+.tag:hover {
+    background-color: #0056b3;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+} 
+
+/* Suchfeld für Hashtags */
+
+.suchfeld {
+    max-width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.suchfeld input[type="suchfeld"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 20px; /* Abgerundete Ecken */
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+    </style>
+
+    
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Produkt hochladen</h2>
+        <form action="/upload_product" method="post" enctype="multipart/form-data" id="uploadForm">
+            <br>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" style="width: 600px;">
+            <br>
+            <label for="availability">Verfügbarkeit:</label>
+            <select id="availability" name="availability" required>
+                <option value="unendlich">Unendlich</option>
+                <option value="Anzahl">Anzahl</option>
+            </select>
+            <br>
+            <div id="quantityContainer">
+                <label for="quantity">Anzahl:</label>
+                <input type="number" id="quantity" name="quantity" min="0" required>
+            </div>
+            <br> 
+            <div class="currency-selector">
+                <label for="currency">Wählen Sie eine Währung:</label>
+                <select id="currency" name="currency" onchange="updateCurrency()">
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">Euro (€)</option>
+                    <option value="JPY">Yen (¥)</option>
+                </select>
+            </div>
+            <br>
+            <div class="price-input">
+                <label for="price">Preis:</label>
+                <input type="text" id="price" name="price" placeholder="Preis eingeben" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                <span id="currency-symbol" class="currency">€</span>
+            </div>
+            <script src="script.js"></script>
+
+            <div class="word-counter">
+                <label for="description">Beschreibung:</label>
+                <textarea id="text-entry" style="resize: none; width: 600px; height: 150px;"></textarea>
+                <p id="word-count">0/1500</p>
+            </div>
+            <br>
+            
+            <div class= "suchfeld " >
+                <input type="suchfeld" id="search" placeholder="Hashtags suchen...">
+
+                </div>
+
+                <br>
+
+
+                <div>
+                <input type="text" id="tags" name="tags" placeholder="Ausgewählte Tags werden hier angezeigt">
+            </div>
+            <div class="product-tags">
+                <label for="tags">Produkt-Tags </label>
+                <div id="tag-container">
+                    <span class="tag" onclick="addTag('#spielen')">spielen</span>
+                    <span class="tag" onclick="addTag('#pdf')">pdf</span>
+                    <span class="tag" onclick="addTag('#free')">free</span>
+                    <span class="tag" onclick="addTag('#Comics')">Comics</span>
+                    <span class="tag" onclick="addTag('#GraphicNovel')">GraphicNovel</span>
+                    <span class="tag" onclick="addTag('#DigitalArt')">DigitalArt</span>
+                    <span class="tag" onclick="addTag('#Illustration')">Illustration</span>
+                    <span class="tag" onclick="addTag('#Ebook')">Ebook</span>
+                    <span class="tag" onclick="addTag('#OnlineCourses')">OnlineCourses</span>
+                    <span class="tag" onclick="addTag('#Learning')">Learning</span>
+                    <span class="tag" onclick="addTag('#SelfImprovement')">SelfImprovement</span>
+                    <span class="tag" onclick="addTag('#Fiction')">Fiction</span>
+                    <span class="tag" onclick="addTag('#NonFiction')">NonFiction</span>
+                    <span class="tag" onclick="addTag('#Freebies')">Freebies</span>
+                
+                </div>
+            
+        
+            <script src="script.js"></script>
+            <br>
+
+            <div class="image-container">
+                <div class="image-box"></div>
+                <div class="image-box"></div>
+                <div class="image-box"></div>
+                <div class="image-box"></div>
+                <div class="image-box"></div>
+                <div class="image-box"></div>
+                <div class="image-box"></div>
+                <div class="image-box"></div>
+            </div>
+
+            <div class="upload-container">
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                    <label for="image" class="upload-button">Upload</label>
+                </form>
+            </div>
+            <br>
+            
+            <input type="submit" value="Hochladen">
+        </form>
+    </div>
+
+    <div class="Tabe">
+        <a href="{% url 'home' %}" class="split" >Home</a></li>
+
+
+<script>
+
+
+  document.getElementById('image').addEventListener('change', function(event) {
+      const files = event.target.files;
+      const gallery = document.getElementById('imageGallery');
+
+      // Schleife durch die ausgewählten Dateien und zeige sie an (maximal 8 Bilder)
+      for (let i = 0; i < Math.min(files.length, 8); i++) {
+          const file = files[i];
+          const reader = new FileReader();
+
+          reader.onload = function(e) {
+              const img = document.createElement('img');
+              img.src = e.target.result;
+              img.className = 'column';
+              gallery.appendChild(img);
+          }
+
+          reader.readAsDataURL(file);
+      }
+  });
+</script>
+
+
+<script>
+    var textarea = document.getElementById('text-entry');
+    var wordCountDisplay = document.getElementById('word-count');
+
+    textarea.addEventListener('input', function() {
+        var text = this.value.trim();
+        var charCount = text.length; // Zähle die Anzahl der Zeichen
+        var wordCount = charCount > 0 ? charCount : 0; // Setze die Wortanzahl auf die Anzahl der Zeichen
+        if (wordCount > 1500) {
+            // Begrenze die Wortanzahl auf 1500
+            this.value = text.substring(0, 1500);
+            wordCount = 1500;
+        }
+        wordCountDisplay.textContent = wordCount + '/1500';
+    });
+</script>
+
+
+<script>
+    // Funktion zum Ausblenden des Anzahlfelds beim Laden der Seite
+    window.onload = function() {
+        var quantityContainer = document.getElementById('quantityContainer');
+        quantityContainer.style.display = 'none';
+    };
+
+    // Event-Listener für Änderungen im Auswahlmenü für die Verfügbarkeit
+    document.getElementById('availability').addEventListener('change', function() {
+        var quantityContainer = document.getElementById('quantityContainer');
+        if (this.value === 'Anzahl') {
+            quantityContainer.style.display = 'block';
+            document.getElementById('quantity').setAttribute('required', 'required');
+        } else {
+            quantityContainer.style.display = 'none';
+            document.getElementById('quantity').removeAttribute('required');
+        }
+    });
+</script>
+
+<script>
+
+function updateCurrency() {
+    var currencySelector = document.getElementById("currency");
+    var currencySpan = document.getElementById("currency-symbol");
+
+    if (currencySelector.value === "USD") {
+        currencySpan.textContent = "$";
+    } else if (currencySelector.value === "EUR") {
+        currencySpan.textContent = "€";
+    } else if (currencySelector.value === "JPY") {
+        currencySpan.textContent = "¥";
+    }
+
+    updatePrice(); // Update price when currency changes
+}
+
+</script>
+
+<script>
+
+function addTag(tag) {
+    var tagsInput = document.getElementById('tags');
+    var currentTags = tagsInput.value.trim();
+
+    if (currentTags !== '') {
+        // Füge ein Leerzeichen vor dem neuen Tag hinzu, wenn bereits Tags vorhanden sind
+        tag = ' ' + tag;
+    }
+
+    tagsInput.value = currentTags + tag;
+}
+
+document.getElementById('search').addEventListener('input', function() {
+    var filter = this.value.toLowerCase();
+    var tags = document.getElementsByClassName('tag');
+
+    for (var i = 0; i < tags.length; i++) {
+        var tag = tags[i].textContent.toLowerCase();
+        if (tag.indexOf(filter) > -1) {
+            tags[i].style.display = '';
+        } else {
+            tags[i].style.display = 'none';
+        }
+    }
+});
+
+</script>
+
+
+</body>
+</html>

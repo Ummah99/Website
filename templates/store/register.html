@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
+<body>
+
+    
+   
+<style>
+  body{
+  font-family: Arial, sans-serif;
+    background-color: #7e8283; /* Hintergrundfarbe setzen */
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+    
+
+
+.Tabe {
+  overflow: hidden;
+  position: fixed; /* Fixiere die Navigation am Bildschirm */
+  top: 10px; /* Abstand vom oberen Rand */
+  left: 10px; /* Abstand vom linken Rand */
+}
+
+/* Stil für die Links in der Navigationsleiste */
+.Tabe a {
+  float: left;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 10px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  border-radius: 100px; /* Abrundung der Ecken */
+  margin: 5px; /* Abstand zwischen den Links */
+}
+
+
+/* Stil für den rechts ausgerichteten Link in der Navigationsleiste */
+.Tabe a.split {
+  float: right;
+  background-color: rgb(8, 110, 17);
+  color: white;
+  border-radius: 100px; /* Abrundung der Ecken */
+  margin: 5px; /* Abstand zwischen den Links */
+}
+
+
+
+
+</style>
+
+<div class="Tabe">
+  <a href="{% url 'home' %}" class="split">Home</a>
+  </div>
+</head>
+
+
+</body>
+</html>

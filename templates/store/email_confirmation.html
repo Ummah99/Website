@@ -1,0 +1,11 @@
+{% load static %}
+
+{% autoescape off %}
+
+Willkommen bei Ikurs!
+
+Hallo {{ name }}!
+
+Bestätigungslink: <a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">Hier klicken</a> zum Aktivieren deines Kontos.
+
+{% endautoescape %}
