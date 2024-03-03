@@ -80,7 +80,7 @@
         /* Hier ist der produkt Preis Anzeige */
         .price-input {
     max-width: 300px;
-    margin-left: 20px; /* Links am Rand */
+    margin-left: 0px;/* Links am Rand */
     display: flex;
     align-items: center;
     padding: 8px;
@@ -96,6 +96,7 @@ input[type="text"] {
     border: none;
     box-sizing: border-box;
     outline: none;
+    
 }
 
 .currency {
@@ -109,7 +110,7 @@ input[type="text"] {
 
 .currency-selector {
     max-width: 300px;
-    margin-left: 20px; /* Links am Rand */
+    margin-left: 0px; /* Links am Rand */
 }
 
 label {
@@ -284,6 +285,9 @@ input[type="text"] {
     box-sizing: border-box;
 }
 
+
+/* Auswahl der produkt verfügbarkeit */
+
     </style>
 
     
@@ -297,11 +301,14 @@ input[type="text"] {
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" style="width: 600px;">
             <br>
-            <label for="availability">Verfügbarkeit:</label>
-            <select id="availability" name="availability" required>
-                <option value="unendlich">Unendlich</option>
-                <option value="Anzahl">Anzahl</option>
-            </select>
+           
+            <div class="availability-input">
+                <label for="availability">Verfügbarkeit:</label>
+                <select id="availability" name="availability" onchange="updateAvailability()" required>
+                    <option value="unendlich">Unendlich</option>
+                    <option value="Anzahl">Anzahl</option>
+                </select>
+            </div>
             <br>
             <div id="quantityContainer">
                 <label for="quantity">Anzahl:</label>
@@ -322,6 +329,8 @@ input[type="text"] {
                 <input type="text" id="price" name="price" placeholder="Preis eingeben" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                 <span id="currency-symbol" class="currency">€</span>
             </div>
+            <br>
+            <br>
             <script src="script.js"></script>
 
             <div class="word-counter">
@@ -333,12 +342,8 @@ input[type="text"] {
             
             <div class= "suchfeld " >
                 <input type="suchfeld" id="search" placeholder="Hashtags suchen...">
-
                 </div>
-
                 <br>
-
-
                 <div>
                 <input type="text" id="tags" name="tags" placeholder="Ausgewählte Tags werden hier angezeigt">
             </div>
@@ -376,6 +381,8 @@ input[type="text"] {
                 <div class="image-box"></div>
                 <div class="image-box"></div>
             </div>
+            <br> 
+            <br>
 
             <div class="upload-container">
                 <form action="/upload" method="post" enctype="multipart/form-data">
@@ -383,6 +390,7 @@ input[type="text"] {
                     <label for="image" class="upload-button">Upload</label>
                 </form>
             </div>
+            <br>
             <br>
             
             <input type="submit" value="Hochladen">
@@ -419,6 +427,8 @@ input[type="text"] {
 
 
 <script>
+    // Beschreibung nur 1500 wörter erlaubt (Nicht Ändern !!!!)
+    //-------------------------------------------------------------
     var textarea = document.getElementById('text-entry');
     var wordCountDisplay = document.getElementById('word-count');
 
@@ -433,11 +443,13 @@ input[type="text"] {
         }
         wordCountDisplay.textContent = wordCount + '/1500';
     });
+    // _________________________________________________________________________________
 </script>
 
 
 <script>
-    // Funktion zum Ausblenden des Anzahlfelds beim Laden der Seite
+    // Anzahl feld bei verfügbarkeit wird ausgeblendet bis man es auswählt 
+    // -----------------------------------------------------------------------
     window.onload = function() {
         var quantityContainer = document.getElementById('quantityContainer');
         quantityContainer.style.display = 'none';
@@ -454,10 +466,40 @@ input[type="text"] {
             document.getElementById('quantity').removeAttribute('required');
         }
     });
+    
+    // Nur zahlen erlaubt in der Anzahl feld (Nicht ändern !!!!)
+    //-------------------------------------------------------------
+
+    function updateAvailability() {
+    var availabilitySelect = document.getElementById("availability");
+    var quantityInput = document.getElementById("quantity");
+
+    if (availabilitySelect.value === "Anzahl") {
+        quantityInput.classList.remove("hidden");
+        quantityInput.value = ""; // Clear input value when shown
+        quantityInput.addEventListener("input", allowOnlyNumbers);
+    } else {
+        quantityInput.classList.add("hidden");
+        quantityInput.value = ""; // Clear input value when hidden
+        quantityInput.removeEventListener("input", allowOnlyNumbers);
+    }
+}
+
+function allowOnlyNumbers() {
+    this.value = this.value.replace(/\D/g, ''); // Allow only digits
+}
+
+// Event listener for availability select change
+document.getElementById("availability").addEventListener("change", updateAvailability);
+
+//____________________________________________________________________________________________
 </script>
 
-<script>
 
+
+<script>
+// Update von währungen bei der Währungs auswahl (Nicht ändern !!!!)
+//---------------------------------------------------------------------------
 function updateCurrency() {
     var currencySelector = document.getElementById("currency");
     var currencySpan = document.getElementById("currency-symbol");
@@ -473,10 +515,12 @@ function updateCurrency() {
     updatePrice(); // Update price when currency changes
 }
 
+// _____________________________________________________________________________________________
 </script>
 
 <script>
-
+// Script für die Hashtags # suchfeld Nicht verändern !!!
+//--------------------------------------------------------------
 function addTag(tag) {
     var tagsInput = document.getElementById('tags');
     var currentTags = tagsInput.value.trim();
@@ -502,8 +546,10 @@ document.getElementById('search').addEventListener('input', function() {
         }
     }
 });
-
+//_______________________________________________________________________________________________
 </script>
+
+
 
 
 </body>
