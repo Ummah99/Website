@@ -286,7 +286,61 @@ input[type="text"] {
 }
 
 
-/* Auswahl der produkt verfügbarkeit */
+#tag-container {
+        max-height: 150px; /* Höhe nach Bedarf einstellen */
+        overflow-y: auto; /* Scrollbalken anzeigen, wenn der Inhalt überläuft */
+        border: 1px solid #ccc; /* Optional: Rahmen für das scrollbare Feld */
+        padding: 5px; /* Optional: Innenabstand für den Inhalt */
+    }
+
+    .tag {
+        display: inline-block;
+        background-color: #ffffff;
+        color: #000000;
+        padding: 5px 10px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        border-radius: 20px; /* Runde Ecken */
+        box-shadow: 2px 2px 5px rgba(7, 196, 133, 0.616); /* Schatten */
+        cursor: pointer;
+    }
+
+
+/* Hier ist Produkt Anzahl von Verfügbarkeit  */
+.image-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    border: 2px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.plus {
+    font-size: 60px;
+    color: #ccc;
+    line-height: 1;
+}
+
+.image-upload-label {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 10;
+}
+
+/* Füge einen Hover-Effekt hinzu, wenn Maus über das Bildfeld */
+.image-container:hover {
+    border-color: #666;
+}
 
     </style>
 
@@ -297,11 +351,42 @@ input[type="text"] {
     <div class="form-container">
         <h2>Produkt hochladen</h2>
         <form action="/upload_product" method="post" enctype="multipart/form-data" id="uploadForm">
+       
+            <br>
+            <br>
+            <div class="image-container" id="imageContainer1">
+                <label for="image-upload1" class="image-upload-label">
+                    <div class="plus">+</div>
+                    <input type="file" id="image-upload1" class="image-upload" accept="image/*">
+                </label>
+            </div>
+        
+            <div class="image-container" id="imageContainer2">
+                <label for="image-upload2" class="image-upload-label">
+                    <div class="plus">+</div>
+                    <input type="file" id="image-upload2" class="image-upload" accept="image/*">
+                </label>  
+            </div>
+        
+            <div class="image-container" id="imageContainer3">
+                <label for="image-upload3" class="image-upload-label">
+                    <div class="plus">+</div>
+                    <input type="file" id="image-upload3" class="image-upload" accept="image/*">
+                </label>
+            </div>
+        
+            <div class="image-container" id="imageContainer4">
+                <label for="image-upload4" class="image-upload-label">
+                    <div class="plus">+</div>
+                    <input type="file" id="image-upload4" class="image-upload" accept="image/*">
+                </label>
+            </div>
+            <br>
             <br>
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" style="width: 600px;">
             <br>
-           
+            <br>
             <div class="availability-input">
                 <label for="availability">Verfügbarkeit:</label>
                 <select id="availability" name="availability" onchange="updateAvailability()" required>
@@ -312,8 +397,9 @@ input[type="text"] {
             <br>
             <div id="quantityContainer">
                 <label for="quantity">Anzahl:</label>
-                <input type="number" id="quantity" name="quantity" min="0" required>
+                <input type="text" id="quantity" name="quantity" class="quantity-input" placeholder="Anzahl ihrs Produkts" required>
             </div>
+            
             <br> 
             <div class="currency-selector">
                 <label for="currency">Wählen Sie eine Währung:</label>
@@ -344,11 +430,9 @@ input[type="text"] {
                 <input type="suchfeld" id="search" placeholder="Hashtags suchen...">
                 </div>
                 <br>
-                <div>
-                <input type="text" id="tags" name="tags" placeholder="Ausgewählte Tags werden hier angezeigt">
-            </div>
-            <div class="product-tags">
+                <div class="product-tags">
                 <label for="tags">Produkt-Tags </label>
+                <textarea id="tags" name="tags" placeholder="Ausgewählte Tags werden hier angezeigt" style="width: 500px; height: 100px; resize: vertical;"></textarea>
                 <div id="tag-container">
                     <span class="tag" onclick="addTag('#spielen')">spielen</span>
                     <span class="tag" onclick="addTag('#pdf')">pdf</span>
@@ -366,64 +450,49 @@ input[type="text"] {
                     <span class="tag" onclick="addTag('#Freebies')">Freebies</span>
                 
                 </div>
-            
-        
             <script src="script.js"></script>
             <br>
-
-            <div class="image-container">
-                <div class="image-box"></div>
-                <div class="image-box"></div>
-                <div class="image-box"></div>
-                <div class="image-box"></div>
-                <div class="image-box"></div>
-                <div class="image-box"></div>
-                <div class="image-box"></div>
-                <div class="image-box"></div>
-            </div>
-            <br> 
-            <br>
-
-            <div class="upload-container">
-                <form action="/upload" method="post" enctype="multipart/form-data">
-                    <input type="file" id="image" name="image" accept="image/*" required>
-                    <label for="image" class="upload-button">Upload</label>
-                </form>
-            </div>
             <br>
             <br>
-            
             <input type="submit" value="Hochladen">
         </form>
     </div>
 
     <div class="Tabe">
         <a href="{% url 'home' %}" class="split" >Home</a></li>
+    </div>
 
 
-<script>
+    <script>
+        function uploadImage() {
+            const input = document.getElementById('image');
+            const files = input.files;
+            const imageGallery = document.getElementById('imageGallery');
+    
+            // Schleife durch die ausgewählten Dateien und zeige sie an (maximal 8 Bilder)
+            for (let i = 0; i < Math.min(files.length, 8); i++) {
+                const file = files[i];
+                const reader = new FileReader();
+    
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'column';
+                    const imageBox = document.getElementsByClassName('image-box')[i];
+                    if (imageBox) {
+                        imageBox.appendChild(img);
+                    }
+                }
+    
+                reader.readAsDataURL(file);
+            }
+        }
 
 
-  document.getElementById('image').addEventListener('change', function(event) {
-      const files = event.target.files;
-      const gallery = document.getElementById('imageGallery');
+        
 
-      // Schleife durch die ausgewählten Dateien und zeige sie an (maximal 8 Bilder)
-      for (let i = 0; i < Math.min(files.length, 8); i++) {
-          const file = files[i];
-          const reader = new FileReader();
-
-          reader.onload = function(e) {
-              const img = document.createElement('img');
-              img.src = e.target.result;
-              img.className = 'column';
-              gallery.appendChild(img);
-          }
-
-          reader.readAsDataURL(file);
-      }
-  });
-</script>
+    </script>
+    
 
 
 <script>
@@ -550,7 +619,138 @@ document.getElementById('search').addEventListener('input', function() {
 </script>
 
 
+<script>
+    // Eventlistener hinzufügen, um Änderungen im Datei-Upload-Feld zu überwachen
+    document.getElementById("imageUpload").addEventListener("change", function(event) {
+        // Element, in dem Vorschau-Bilder angezeigt werden sollen
+        var imagePreview = document.getElementById("imagePreview");
+        
+        // Lösche alle vorherigen Vorschau-Bilder
+        imagePreview.innerHTML = '';
+        
+        // Schleife durch jede ausgewählte Datei
+        for (var i = 0; i < event.target.files.length; i++) {
+            var file = event.target.files[i];
+            
+            // Prüfe, ob die ausgewählte Datei ein Bild ist
+            if (file.type.match('image.*')) {
+                // Neues HTML-Element für Vorschau erstellen
+                var img = document.createElement("img");
+                img.classList.add("preview-image");
+                
+                // Datei als Daten-URL lesen und in das Bild-Element einfügen
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+                
+                // Vorschau-Bild dem ImagePreview-Element hinzufügen
+                imagePreview.appendChild(img);
+            }
+        }
+    });
+</script>
 
+<script>
 
+    // Falls du eine Vorschau des Bildes anzeigen möchtest
+const fileInput = document.getElementById('image-upload');
+
+fileInput.addEventListener('change', function() {
+    const file = fileInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const imageContainer = document.querySelector('.image-container');
+            imageContainer.style.backgroundImage = `url('${reader.result}')`;
+            imageContainer.style.backgroundSize = 'cover';
+            imageContainer.style.backgroundPosition = 'center';
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+</script>
+
+<script>
+
+    // Funktion zum Aktualisieren des Bildes in einem bestimmten Feld
+function updateImage(fileInput, imageContainer, message) {
+    const file = fileInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            imageContainer.style.backgroundImage = `url('${reader.result}')`;
+            imageContainer.style.backgroundSize = 'cover';
+            imageContainer.style.backgroundPosition = 'center';
+            message.innerText = 'Bild hochgeladen: ' + file.name;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Event-Listener für jedes Bildfeld
+const imageContainer1 = document.getElementById('imageContainer1');
+const fileInput1 = document.getElementById('image-upload1');
+const message1 = document.getElementById('message1');
+
+imageContainer1.addEventListener('click', function() {
+    fileInput1.click();
+});
+
+fileInput1.addEventListener('change', function() {
+    updateImage(fileInput1, imageContainer1, message1);
+});
+
+const imageContainer2 = document.getElementById('imageContainer2');
+const fileInput2 = document.getElementById('image-upload2');
+const message2 = document.getElementById('message2');
+
+imageContainer2.addEventListener('click', function() {
+    fileInput2.click();
+});
+
+fileInput2.addEventListener('change', function() {
+    updateImage(fileInput2, imageContainer2, message2);
+});
+
+const imageContainer3 = document.getElementById('imageContainer3');
+const fileInput3 = document.getElementById('image-upload3');
+const message3 = document.getElementById('message3');
+
+imageContainer3.addEventListener('click', function() {
+    fileInput3.click();
+});
+
+fileInput3.addEventListener('change', function() {
+    updateImage(fileInput3, imageContainer3, message3);
+});
+
+const imageContainer4 = document.getElementById('imageContainer4');
+const fileInput4 = document.getElementById('image-upload4');
+const message4 = document.getElementById('message4');
+
+imageContainer4.addEventListener('click', function() {
+    fileInput4.click();
+});
+
+fileInput4.addEventListener('change', function() {
+    updateImage(fileInput4, imageContainer4, message4);
+});
+
+const imageContainer5 = document.getElementById('imageContainer5');
+const fileInput5 = document.getElementById('image-upload5');
+const message5 = document.getElementById('message5');
+
+imageContainer5.addEventListener('click', function() {
+    fileInput5.click();
+});
+
+fileInput5.addEventListener('change', function() {
+    updateImage(fileInput5, imageContainer5, message5);
+});
+
+</script>
 </body>
 </html>
