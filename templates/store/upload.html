@@ -16,14 +16,29 @@
         }
 
         .form-container {
-            background-color: white;
-            padding: 100px;
-            border-radius: 10px;
-            width: 600px;
-            position: relative;
-            margin: auto; /* Zentriere das Formular horizontal */
-        }
+        background: linear-gradient(45deg, #00ffd5, #0084ff73, #00ff73ab, #07e0bc);
+        padding: 100px;
+        border-radius: 10px;
+        width: 600px;
+        position: relative;
+        margin: auto;
+        background-size: 400% 400%;
+        animation: gradientAnimation 10s linear infinite;
+    }
 
+    @keyframes gradientAnimation {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    
         label {
             display: block;
             margin-bottom: 5px;
@@ -56,27 +71,7 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
-
-        .image-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .image-box {
-            width: calc(25% - 20px); /* Vier Bilder nebeneinander mit 20px Abstand */
-            height: 150px; /* Höhe der Bildkästen */
-            overflow: hidden; /* Verstecke den Inhalt, der den Bildkasten übersteigt */
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-bottom: 20px; /* Abstand zwischen den Bildkästen */
-        }
-
-        .image-box img {
-            width: 100%; /* Bilder auf 100% Breite des Bildkastens */
-            height: auto; /* Automatische Höhe */
-        }
-
+        
         /* Hier ist der produkt Preis Anzeige */
         .price-input {
     max-width: 300px;
@@ -126,6 +121,8 @@ select {
     box-sizing: border-box;
     outline: none;
 }
+
+
 
 /* Hier ist Der Upload Button */
 .upload-container {
@@ -268,6 +265,9 @@ input[type="text"] {
     box-sizing: border-box;
 } 
 
+
+
+
 /* Suchfeld für Hashtags */
 
 .suchfeld {
@@ -305,44 +305,85 @@ input[type="text"] {
         cursor: pointer;
     }
 
+/* Hier ist die Einstellungen für die Bilder */
 
-/* Hier ist Produkt Anzahl von Verfügbarkeit  */
+
 .image-container {
-    width: 150px;
-    height: 150px;
-    border-radius: 10px;
-    border: 2px dashed #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-gap: 10px;
+        width: 600px;
+        margin: auto;
+    }
+
+    .image-box {
+        position: relative;
+        width: 100%;
+        height: 150px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .image-box img {
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 10px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .image-box:hover img {
+        transform: scale(1.1);
+    }
+
+    .image-upload-label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .image-box:hover .image-upload-label {
+        opacity: 1;
+    }
+
+    .image-upload {
+        display: none;
+    }
+
+
+
+/* hier ist name des produkct einstellung */
+
+.form-group {
+    margin-bottom: 15px;
 }
 
-.plus {
-    font-size: 60px;
-    color: #ccc;
-    line-height: 1;
-}
-
-.image-upload-label {
-    cursor: pointer;
+.form-group label {
     display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    z-index: 10;
+    font-weight: bold;
 }
 
-/* Füge einen Hover-Effekt hinzu, wenn Maus über das Bildfeld */
-.image-container:hover {
-    border-color: #666;
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
     </style>
+
 
     
 </head>
@@ -350,41 +391,47 @@ input[type="text"] {
 
     <div class="form-container">
         <h2>Produkt hochladen</h2>
-        <form action="/upload_product" method="post" enctype="multipart/form-data" id="uploadForm">
-       
             <br>
             <br>
-            <div class="image-container" id="imageContainer1">
-                <label for="image-upload1" class="image-upload-label">
-                    <div class="plus">+</div>
-                    <input type="file" id="image-upload1" class="image-upload" accept="image/*">
-                </label>
-            </div>
-        
-            <div class="image-container" id="imageContainer2">
-                <label for="image-upload2" class="image-upload-label">
-                    <div class="plus">+</div>
-                    <input type="file" id="image-upload2" class="image-upload" accept="image/*">
-                </label>  
-            </div>
-        
-            <div class="image-container" id="imageContainer3">
-                <label for="image-upload3" class="image-upload-label">
-                    <div class="plus">+</div>
-                    <input type="file" id="image-upload3" class="image-upload" accept="image/*">
-                </label>
-            </div>
-        
-            <div class="image-container" id="imageContainer4">
-                <label for="image-upload4" class="image-upload-label">
-                    <div class="plus">+</div>
-                    <input type="file" id="image-upload4" class="image-upload" accept="image/*">
-                </label>
+            <div class="image-container">
+                <div class="image-box" id="imageContainer1">
+                    <label for="image-upload1" class="image-upload-label">
+                        <div class="plus">+</div>
+                        <input type="file" id="image-upload1" class="image-upload" accept="image/*">
+                    </label>
+                </div>
+            
+                <div class="image-box" id="imageContainer2">
+                    <label for="image-upload2" class="image-upload-label">
+                        <div class="plus">+</div>
+                        <input type="file" id="image-upload2" class="image-upload" accept="image/*">
+                    </label>
+                </div>
+            
+                <div class="image-box" id="imageContainer3">
+                    <label for="image-upload3" class="image-upload-label">
+                        <div class="plus">+</div>
+                        <input type="file" id="image-upload3" class="image-upload" accept="image/*">
+                    </label>
+                </div>
+            
+                <div class="image-box" id="imageContainer4">
+                    <label for="image-upload4" class="image-upload-label">
+                        <div class="plus">+</div>
+                        <input type="file" id="image-upload4" class="image-upload" accept="image/*">
+                    </label>
+                </div>
             </div>
             <br>
             <br>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" style="width: 600px;">
+            <br>
+            <br>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" style="width: 600px;">
+            </div>            
+            <br>
+            <br>
             <br>
             <br>
             <div class="availability-input">
@@ -433,6 +480,7 @@ input[type="text"] {
                 <div class="product-tags">
                 <label for="tags">Produkt-Tags </label>
                 <textarea id="tags" name="tags" placeholder="Ausgewählte Tags werden hier angezeigt" style="width: 500px; height: 100px; resize: vertical;"></textarea>
+
                 <div id="tag-container">
                     <span class="tag" onclick="addTag('#spielen')">spielen</span>
                     <span class="tag" onclick="addTag('#pdf')">pdf</span>
@@ -448,8 +496,31 @@ input[type="text"] {
                     <span class="tag" onclick="addTag('#Fiction')">Fiction</span>
                     <span class="tag" onclick="addTag('#NonFiction')">NonFiction</span>
                     <span class="tag" onclick="addTag('#Freebies')">Freebies</span>
-                
-                </div>
+                    <span class="tag" onclick="addTag('#Photography')">Photography</span>
+                    <span class="tag" onclick="addTag('#Photography')">Photography</span>
+                    <span class="tag" onclick="addTag('#Photography')">Photography</span>
+                    <span class="tag" onclick="addTag('#Photography')">Photography</span>
+                    <span class="tag" onclick="addTag('#WebDesign')">WebDesign</span>
+                    <span class="tag" onclick="addTag('#GraphicDesign')">GraphicDesign</span>
+                    <span class="tag" onclick="addTag('#Programming')">Programming</span>
+                    <span class="tag" onclick="addTag('#Music')">Music</span>
+                    <span class="tag" onclick="addTag('#Video')">Video</span>
+                    <span class="tag" onclick="addTag('#Audio')">Audio</span>
+                    <span class="tag" onclick="addTag('#Art')">Art</span>
+                    <span class="tag" onclick="addTag('#Crafts')">Crafts</span>
+                    <span class="tag" onclick="addTag('#Cooking')">Cooking</span>
+                    <span class="tag" onclick="addTag('#Health')">Health</span>
+                    <span class="tag" onclick="addTag('#Fitness')">Fitness</span>
+                    <span class="tag" onclick="addTag('#Yoga')">Yoga</span>
+                    <span class="tag" onclick="addTag('#Meditation')">Meditation</span>
+                    <span class="tag" onclick="addTag('#Mindfulness')">Mindfulness</span>
+                    <span class="tag" onclick="addTag('#Parenting')">Parenting</span>
+                    <span class="tag" onclick="addTag('#Education')">Education</span>
+                    <span class="tag" onclick="addTag('#Business')">Business</span>
+                    <span class="tag" onclick="addTag('#Marketing')">Marketing</span>
+                    <span class="tag" onclick="addTag('#Finance')">Finance</span>
+                    
+  </div>
             <script src="script.js"></script>
             <br>
             <br>
@@ -739,17 +810,6 @@ fileInput4.addEventListener('change', function() {
     updateImage(fileInput4, imageContainer4, message4);
 });
 
-const imageContainer5 = document.getElementById('imageContainer5');
-const fileInput5 = document.getElementById('image-upload5');
-const message5 = document.getElementById('message5');
-
-imageContainer5.addEventListener('click', function() {
-    fileInput5.click();
-});
-
-fileInput5.addEventListener('change', function() {
-    updateImage(fileInput5, imageContainer5, message5);
-});
 
 </script>
 </body>
